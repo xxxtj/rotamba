@@ -10,5 +10,5 @@ class Math{
 }
 
 $test = new Math();
-echo $test->kvadrat(5);
+echo $test->kvadrat(16.56);
 ?>
