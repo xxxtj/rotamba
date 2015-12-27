@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Rotamba</title>
+		<link rel="stylesheet" href="/css/style.css">
+		<link href='//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Play:400,700' rel='stylesheet' type='text/css'>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<script src="/js/ion.sound.js"></script>  
+		
+
+	</head> 
+	<body>
+	
+		<div class="container">  
+			<div class="header">
+				<h1>Rotamba</h1>
+			</div>
+			<div id="a"></div>
+			<table border="1" cellspacing="0" cellpadding="10" class="pool">
+				<tr>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>6</td> 
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>3</td> 
+				</tr>
+			</table>
+			<div class="intro">
+				<p>Play <b>Rotamba</b> by using the arrows to match the tiles!</p>
+			</div>
+			<table border="1" cellspacing="0" cellpadding="10" class="selection">
+				<tr>
+				
+				</tr>
+			 <tr>
+					<td><input type="text" class="c foo1" number="1" value="3"  disabled></td>
+					<td><input type="text" class="c foo1 foo2" number="2" value="2"   disabled></td>
+					 
+					 
+				</tr>
+				<tr>
+					<td><input type="text" class="c foo1" number="4" value="6"   disabled></td>
+					<td><input type="text" class="c foo1 foo2" number="5" value="1"   disabled></td>
+					 
+				</tr>
+			</table>
+			<p>
+			<span style="cursor:pointer;" class="arrow" side="right" column="1">
+					<img src="img/back-arrow.png">
+				</span>
+				        &nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="cursor:pointer;" class="arrow" column="1" side="left">
+			<img src="img/forward-arrow.png">
+				</span>
+				   
+			</p>
+			<div>
+		Level: 1<br>
+		Time: <span id="time">0 sec</span><span id="time2" style="display:none;">0 sec</span>
+		<br>
+		Clicks: <span id="clicks">0</span><br>
+		</div>
+		</div>
+		
+		 <script type="text/javascript">
+
+</script>
+		<script>
+    $(document).ready(function() {
+               
+	function AnimateRotate(d){
+	 
+    $({deg: 0}).animate({deg: d}, {
+        step: function(now, fx){
+		 
+            $(".foo1").css({
+                 transform: "rotate(" + now + "deg)"
+            });  
+			   if(now==180){
+			    $(".foo1").removeAttr("style");
+			   }	
+			   
+			   if(now==-180){
+			    $(".foo1").removeAttr("style");
+			   }	
+        }
+    });
+	  
+}
+
+	function AnimateRotate2(d){
+	 
+    $({deg: 0}).animate({deg: d}, {
+        step: function(now, fx){
+		 
+            $(".foo2").css({
+                 transform: "rotate(" + now + "deg)"
+            }); 
+			 
+			   if(now==180){
+			    $(".foo2").removeAttr("style");
+			   }	
+			   
+			   if(now==-180){
+			    $(".foo2").removeAttr("style");
+			   }	
+        }
+    });
+	  
+}
+	  ion.sound({
+            sounds: [
+                {name: "button_tiny"},
+                {name: "bell_ring"},
+				{name: "pony"},
+				{name: "snap"}
+            ],
+            path: "/sounds/",
+            preload: true,
+            volume: 1.0,
+			multiplay: true
+        });
+		
+		$('.arrow').mouseenter(function() {
+		
+		 ion.sound.play("snap");
+		  });
+        var click = 0;
+        $('.arrow').click(function() {
+		 ion.sound.play("button_tiny");
+            click++;
+            $("#clicks").html(click);
+            if (click < 2) {
+                timer("time", "1000");
+				ion.sound.play("pony", {
+    loop: 15
+});
+            }
+			var count = $("#time").length;
+			if( count>0){
+			var ttt = setInterval(function(event) { 
+                var sec = $("#time").html();
+				$("#time2").html(sec);
+
+            }, 1000);
+			}
+            var s = $(this).attr("side");
+            var c = $(this).attr("column");
+            var q = $("input[number='1']").val();
+            var w = $("input[number='2']").val();
+            var e = $("input[number='3']").val();
+
+            var r = $("input[number='4']").val();
+            var t = $("input[number='5']").val();
+            var y = $("input[number='6']").val();
+            if (s == "left" && c == 1) {
+			
+                $("input[number='1']").val(w);
+                $("input[number='2']").val(t);
+
+                $("input[number='5']").val(r);
+                $("input[number='4']").val(q);
+				 
+				AnimateRotate(-180); 
+            } else if (s == "right" && c == 1) {
+					
+                $("input[number='1']").val(r);
+                $("input[number='2']").val(q);
+
+                $("input[number='5']").val(w);
+                $("input[number='4']").val(t);
+				   
+AnimateRotate(180); 
+            } else if (s == "left" && c == 2) {
+
+                $("input[number='2']").val(e);
+                $("input[number='5']").val(w);
+
+                $("input[number='6']").val(t);
+                $("input[number='3']").val(y);
+				AnimateRotate2(-180); 
+            } else if (s == "right" && c == 2) {
+
+                $("input[number='2']").val(t);
+                $("input[number='3']").val(w);
+
+                $("input[number='5']").val(y);
+                $("input[number='6']").val(e);
+				AnimateRotate2(180); 
+            } else {
+                alert(5);
+            }
+			  
+            var q1 = $("input[number='1']").val();
+            var w1 = $("input[number='2']").val();
+            var e1 = $("input[number='3']").val();
+
+            var r1 = $("input[number='4']").val();
+            var t1 = $("input[number='5']").val();
+            var y1 = $("input[number='6']").val();
+            if (q1 == "1" && w1 == "6"   && r1 == "2" && t1 == "3" ) {
+			ion.sound.destroy("pony");
+			ion.sound.play("bell_ring");
+                alert("You won!");
+				$("#time").remove();
+				
+				$("#time2").show(); 
+				window.location.href = "/level2.html";
+            } else {}
+        });
+
+
+        function timer(block, speed) {
+            var elem = $("#" + block).html();
+            var milliSec = 0;
+
+            var timer = setInterval(function() {
+                milliSec = milliSec + 1000;
+                $("#" + block).html(milliSec / 1000 + " sec");
+
+            }, speed);
+        }
+
+
+
+    });
+</script>
+	</body>
+</html>
