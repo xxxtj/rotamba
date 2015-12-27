@@ -7,6 +7,12 @@ class Math{
 	$b = 10-$a;
 	 return $b;
 	}
+	
+	public function cos($a){
+	if ($a == '1/2'){
+	echo "60";
+	}
+	}
 }
 
 $test = new Math();
